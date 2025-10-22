@@ -22,6 +22,27 @@ class NewsFetcher:
         self.ai_news = []
         self.weather = None
 
+    def get_clothing_suggestion(self, temp):
+        """根据温度给出穿衣建议"""
+        try:
+            temp = int(temp)
+            if temp >= 28:
+                return "👕 短袖短裤，注意防晒"
+            elif temp >= 23:
+                return "👔 短袖长裤，舒适凉爽"
+            elif temp >= 18:
+                return "👕 长袖薄外套，早晚加件衣服"
+            elif temp >= 13:
+                return "🧥 薄外套或卫衣，适当保暖"
+            elif temp >= 8:
+                return "🧥 厚外套，建议穿毛衣"
+            elif temp >= 3:
+                return "🧥 冬装外套，保暖很重要"
+            else:
+                return "🧥 羽绒服或棉衣，注意保暖防寒"
+        except:
+            return "👔 根据天气适当增减衣物"
+
     def fetch_hot_news(self, limit=10):
         """获取热点新闻 - 使用知乎热榜"""
         print("正在获取热点新闻...")
@@ -539,6 +560,8 @@ class NewsFetcher:
         # 天气预报部分
         if self.weather:
             w = self.weather
+            # 获取穿衣建议
+            clothing = self.get_clothing_suggestion(w['today']['temp'])
             html += f"""
     <div class="weather-card">
         <div class="weather-title">🌤️ {w['city']} 天气预报</div>
@@ -554,6 +577,10 @@ class NewsFetcher:
                 <div class="weather-temp">{w['tomorrow']['temp_min']}~{w['tomorrow']['temp_max']}°</div>
                 <div class="weather-desc">{w['tomorrow']['weather']}</div>
             </div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 12px; margin-top: 12px; text-align: center; font-size: 14px; backdrop-filter: blur(10px);">
+            <div style="opacity: 0.9;">穿衣建议</div>
+            <div style="font-weight: 600; margin-top: 4px;">{clothing}</div>
         </div>
     </div>
 """
