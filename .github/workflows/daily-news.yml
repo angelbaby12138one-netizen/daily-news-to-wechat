@@ -30,5 +30,6 @@ jobs:
       env:
         PUSH_TYPE: ${{ secrets.PUSH_TYPE }}
         PUSH_KEY: ${{ secrets.PUSH_KEY }}
+        CITY: ${{ secrets.CITY }}
       run: |
         python news_fetcher.py
